@@ -11,6 +11,6 @@ SELECT nickname,
             WHEN lvl > 3 AND lvl < 8 THEN 'Бывалый'
             WHEN lvl > 7 THEN 'Нереальный монстр'
        END as lvlClass
-INTO usersClass
+INTO TEMP usersClass
 FROM users, users_statistics
 WHERE users.id = users_statistics.fk_users_id
