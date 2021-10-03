@@ -8,8 +8,8 @@
 SELECT users.nickname
 FROM users, users_statistics
 WHERE users.id = users_statistics.fk_users_id
-	  AND users_statistics.elo = (SELECT MAX(elo)
-      							  FROM users_statistics
+      AND users_statistics.elo = (SELECT MAX(elo)
+                                    FROM users_statistics
                                   WHERE users_statistics.fk_users_id IN (SELECT id
                                                                          FROM users
                                                                          WHERE country = 'ru'))

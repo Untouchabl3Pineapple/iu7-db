@@ -7,4 +7,4 @@
 SELECT *
 FROM users, users_statistics
 WHERE users.id = users_statistics.fk_users_id
-				 AND lvl BETWEEN 5 AND 7
+                 AND lvl BETWEEN 5 AND 7

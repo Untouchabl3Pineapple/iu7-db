@@ -9,5 +9,5 @@ SELECT nickname, elo
 FROM users, users_statistics
 WHERE users.id = users_statistics.fk_users_id 
       AND elo > (SELECT AVG(elo)
-		     FROM users_statistics)
+             FROM users_statistics)
 

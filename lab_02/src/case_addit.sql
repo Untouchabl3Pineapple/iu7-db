@@ -10,20 +10,20 @@
 -- Создание первой временной таблицы
 CREATE TEMP TABLE Table1
 (
-	id INT,
-	var1 TEXT,
-	valid_from_dttm DATE,
-	valid_to_dttm DATE
+    id INT,
+    var1 TEXT,
+    valid_from_dttm DATE,
+    valid_to_dttm DATE
 )
 ;
 
 -- Создание второй временной таблицы
 CREATE TEMP TABLE Table2
 (
-	id INT,
-	var2 TEXT,
-	valid_from_dttm DATE,
-	valid_to_dttm DATE
+    id INT,
+    var2 TEXT,
+    valid_from_dttm DATE,
+    valid_to_dttm DATE
 )
 ;
 
@@ -78,9 +78,9 @@ WITH
         )
         ORDER BY 1, 2
     ),
-	
-	-- Создание линков для коннекта таблиц по атрибутам:
-	-- id, valid_from_dttm, valid_to_dttm
+    
+    -- Создание линков для коннекта таблиц по атрибутам:
+    -- id, valid_from_dttm, valid_to_dttm
     numbered_sorted_valid_from_dttm AS
     (
         SELECT ROW_NUMBER() OVER() AS numb, *
@@ -91,37 +91,37 @@ WITH
         SELECT ROW_NUMBER() OVER() AS numb, *
         FROM sorted_valid_to_dttm
     ),
-	
-	-- Таблица с атрибутами: id, valid_from_dttm, valid_to_dttm
-	valid_dttm AS
-	(
-		SELECT numbered_sorted_valid_from_dttm.numb, numbered_sorted_valid_from_dttm.id, valid_from_dttm, valid_to_dttm
-		FROM numbered_sorted_valid_from_dttm, numbered_sorted_valid_to_dttm
-		WHERE numbered_sorted_valid_from_dttm.numb = numbered_sorted_valid_to_dttm.numb
-	),
-	
-	-- Выборка с атрибутом var1
-	get_var1 AS
-	(
-		SELECT var1
-		FROM Table1, valid_dttm
-		WHERE Table1.id = valid_dttm.id AND
-				valid_dttm.valid_from_dttm >= Table1.valid_from_dttm
-				AND valid_dttm.valid_to_dttm <= Table1.valid_to_dttm
-	),
-	
-	-- Выборка с атрибутом var2
-	get_var2 AS
-	(
-		SELECT var2
-		FROM Table2, valid_dttm
-		WHERE Table2.id = valid_dttm.id AND
-				valid_dttm.valid_from_dttm >= Table2.valid_from_dttm
-				AND valid_dttm.valid_to_dttm <= Table2.valid_to_dttm
-	),
-	
-	-- Создание линков для коннекта таблиц по атрибутам:
-	-- var1, var2
+    
+    -- Таблица с атрибутами: id, valid_from_dttm, valid_to_dttm
+    valid_dttm AS
+    (
+        SELECT numbered_sorted_valid_from_dttm.numb, numbered_sorted_valid_from_dttm.id, valid_from_dttm, valid_to_dttm
+        FROM numbered_sorted_valid_from_dttm, numbered_sorted_valid_to_dttm
+        WHERE numbered_sorted_valid_from_dttm.numb = numbered_sorted_valid_to_dttm.numb
+    ),
+    
+    -- Выборка с атрибутом var1
+    get_var1 AS
+    (
+        SELECT var1
+        FROM Table1, valid_dttm
+        WHERE Table1.id = valid_dttm.id AND
+                valid_dttm.valid_from_dttm >= Table1.valid_from_dttm
+                AND valid_dttm.valid_to_dttm <= Table1.valid_to_dttm
+    ),
+    
+    -- Выборка с атрибутом var2
+    get_var2 AS
+    (
+        SELECT var2
+        FROM Table2, valid_dttm
+        WHERE Table2.id = valid_dttm.id AND
+                valid_dttm.valid_from_dttm >= Table2.valid_from_dttm
+                AND valid_dttm.valid_to_dttm <= Table2.valid_to_dttm
+    ),
+    
+    -- Создание линков для коннекта таблиц по атрибутам:
+    -- var1, var2
     numbered_var1 AS
     (
         SELECT ROW_NUMBER() OVER() AS numb, *
@@ -137,5 +137,5 @@ WITH
 SELECT id, var1, var2, valid_from_dttm, valid_to_dttm
 FROM valid_dttm, numbered_var1, numbered_var2
 WHERE valid_dttm.numb = numbered_var1.numb 
-	  AND valid_dttm.numb = numbered_var2.numb
+      AND valid_dttm.numb = numbered_var2.numb
 ;

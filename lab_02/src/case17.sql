@@ -13,11 +13,11 @@ AND users_statistics.lvl = 10
 -- Создание временной таблицы
 CREATE TEMP TABLE users_lvls
 (
-	nickname VARCHAR(30) UNIQUE NOT NULL,
-	lvl INT NOT NULL
+    nickname VARCHAR(30) UNIQUE NOT NULL,
+    lvl INT NOT NULL
 )
 
 -- Вставка данных в таблицу
 INSERT INTO users_lvls (nickname, lvl)
 SELECT users.nickname, (SELECT MAX(lvl)
-        		  		FROM users_statistics)
+                          FROM users_statistics)

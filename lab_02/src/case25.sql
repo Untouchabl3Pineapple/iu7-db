@@ -11,11 +11,14 @@ WITH
     (
         SELECT *
         FROM users
+
         UNION ALL
+        
         SELECT *
         FROM users
         ORDER BY id
     ),
+
     numbered_table AS
     (
         SELECT ROW_NUMBER() OVER(PARTITION BY id) AS num, *

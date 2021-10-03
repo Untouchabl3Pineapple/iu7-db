@@ -5,22 +5,22 @@
 
 -- ОТВ
 WITH
-	-- Выборка с нумерацией каждого матча игрока
-	users_matches AS
-	(
-		SELECT ROW_NUMBER() OVER(PARTITION BY fk_users_id) AS mVal, *
-		FROM users_matches_hubs
-	),
-		
-	-- Выборка ТОП 10 игроков и их количество матчей
-	sorted_users_matches AS
-	(
-		SELECT fk_users_id, 
-	   		   max(mVal) AS matchesVal
-		FROM users_matches
-		GROUP BY fk_users_id
-		ORDER BY matchesVal DESC LIMIT 10
-	)
+    -- Выборка с нумерацией каждого матча игрока
+    users_matches AS
+    (
+        SELECT ROW_NUMBER() OVER(PARTITION BY fk_users_id) AS mVal, *
+        FROM users_matches_hubs
+    ),
+        
+    -- Выборка ТОП 10 игроков и их количество матчей
+    sorted_users_matches AS
+    (
+        SELECT fk_users_id, 
+               max(mVal) AS matchesVal
+        FROM users_matches
+        GROUP BY fk_users_id
+        ORDER BY matchesVal DESC LIMIT 10
+    )
 
 -- Выборка первых 10 матчей с ТОП 10 игроками
 SELECT *
