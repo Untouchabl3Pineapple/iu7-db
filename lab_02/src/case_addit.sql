@@ -15,6 +15,7 @@ CREATE TEMP TABLE Table1
 	valid_from_dttm DATE,
 	valid_to_dttm DATE
 )
+;
 
 -- Создание второй временной таблицы
 CREATE TEMP TABLE Table2
@@ -24,26 +25,51 @@ CREATE TEMP TABLE Table2
 	valid_from_dttm DATE,
 	valid_to_dttm DATE
 )
+;
 
 -- Вставка данных в первую таблицу
 INSERT INTO Table1 
     (id, var1, valid_from_dttm, valid_to_dttm)
 VALUES
     (1, 'A', '2018-09-01', '2018-09-15')
+;
 INSERT INTO Table1 
     (id, var1, valid_from_dttm, valid_to_dttm)
 VALUES
     (1, 'B', '2018-09-16', '5999-12-31')
+;
+INSERT INTO Table1 
+    (id, var1, valid_from_dttm, valid_to_dttm)
+VALUES
+    (2, 'A', '2018-09-01', '2018-09-15')
+;
+INSERT INTO Table1 
+    (id, var1, valid_from_dttm, valid_to_dttm)
+VALUES
+    (2, 'B', '2018-09-16', '5999-12-31')
+;
 
 -- Вставка данных во вторую таблицу
-INSERT INTO Table2
-    (id, var2, valid_from_dttm, valid_to_dttm)
-VALUES
-    (1, 'A', '2018-09-01', '2018-09-18')
-INSERT INTO Table2
-    (id, var2, valid_from_dttm, valid_to_dttm)
-VALUES
-    (1, 'B', '2018-09-19', '5999-12-31')
+    INSERT INTO Table2
+        (id, var2, valid_from_dttm, valid_to_dttm)
+    VALUES
+        (1, 'A', '2018-09-01', '2018-09-18')
+    ;
+    INSERT INTO Table2
+        (id, var2, valid_from_dttm, valid_to_dttm)
+    VALUES
+        (1, 'B', '2018-09-19', '5999-12-31')
+    ;
+    INSERT INTO Table2
+        (id, var2, valid_from_dttm, valid_to_dttm)
+    VALUES
+        (2, 'A', '2018-09-01', '2018-09-18')
+    ;
+    INSERT INTO Table2
+        (id, var2, valid_from_dttm, valid_to_dttm)
+    VALUES
+        (2, 'B', '2018-09-19', '5999-12-31')
+    ;
 
 -- ОТВ
 WITH
@@ -53,13 +79,11 @@ WITH
 		(
 			SELECT id, var1, valid_from_dttm
 			FROM Table1
-			WHERE id = 1
 
 			UNION
 
 			SELECT id, var2, valid_from_dttm
 			FROM Table2
-			WHERE id = 1
 		)
 		ORDER BY 3
 	),
@@ -71,13 +95,11 @@ WITH
 			SELECT id, var1 AS var2
 				     , valid_to_dttm
 			FROM Table1
-			WHERE id = 1
 
 			UNION
 
 			SELECT id, var2, valid_to_dttm
 			FROM Table2
-			WHERE id = 1
 		)
 		ORDER BY 3
 	),
@@ -100,4 +122,6 @@ WITH
 SELECT numbered_sorted_valid_from_dttm.id, var1, var2, valid_from_dttm, valid_to_dttm
 FROM numbered_sorted_valid_from_dttm, numbered_sorted_valid_to_dttm
 WHERE numbered_sorted_valid_from_dttm.numb = numbered_sorted_valid_to_dttm.numb
+ORDER BY 1
+;
 
