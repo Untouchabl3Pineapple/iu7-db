@@ -7,7 +7,11 @@
     Выполнить версионное соединение двух талиц по полю id.
 */
 
--- Создание первой временной таблицы
+-- Дроп временных таблиц.
+DROP TABLE IF EXISTS table1, table2
+;
+
+-- Создание первой временной таблицы.
 CREATE TEMP TABLE Table1
 (
     id INT,
@@ -17,7 +21,7 @@ CREATE TEMP TABLE Table1
 )
 ;
 
--- Создание второй временной таблицы
+-- Создание второй временной таблицы.
 CREATE TEMP TABLE Table2
 (
     id INT,
@@ -27,7 +31,7 @@ CREATE TEMP TABLE Table2
 )
 ;
 
--- Вставка данных в первую таблицу
+-- Вставка данных в первую таблицу.
 INSERT INTO Table1 
     (id, var1, valid_from_dttm, valid_to_dttm)
 VALUES
@@ -37,7 +41,7 @@ VALUES
     , (2, 'D', '2018-09-14', '5999-12-31')
 ;
  
--- Вставка данных во вторую таблицу
+-- Вставка данных во вторую таблицу.
 INSERT INTO Table2
     (id, var2, valid_from_dttm, valid_to_dttm)
 VALUES
@@ -47,9 +51,9 @@ VALUES
     , (2, 'J', '2018-09-24', '5999-12-31')
 ;
 
--- ОТВ
+-- ОТВ.
 WITH
-    -- Отсортированная таблица по valid_from_dttm
+    -- Отсортированная таблица по valid_from_dttm.
     sorted_valid_from_dttm AS
     (
         (
@@ -64,7 +68,7 @@ WITH
         ORDER BY 1, 2
     ),
     
-    -- Отсортированная таблица по valid_to_dttm
+    -- Отсортированная таблица по valid_to_dttm.
     sorted_valid_to_dttm AS
     (
         (
@@ -80,7 +84,7 @@ WITH
     ),
     
     -- Создание линков для коннекта таблиц по атрибутам:
-    -- id, valid_from_dttm, valid_to_dttm
+    -- id, valid_from_dttm, valid_to_dttm.
     numbered_sorted_valid_from_dttm AS
     (
         SELECT ROW_NUMBER() OVER() AS numb, *
@@ -92,7 +96,7 @@ WITH
         FROM sorted_valid_to_dttm
     ),
     
-    -- Таблица с атрибутами: id, valid_from_dttm, valid_to_dttm
+    -- Таблица с атрибутами: id, valid_from_dttm, valid_to_dttm.
     valid_dttm AS
     (
         SELECT numbered_sorted_valid_from_dttm.numb, numbered_sorted_valid_from_dttm.id, valid_from_dttm, valid_to_dttm
@@ -100,7 +104,7 @@ WITH
         WHERE numbered_sorted_valid_from_dttm.numb = numbered_sorted_valid_to_dttm.numb
     ),
     
-    -- Выборка с атрибутом var1
+    -- Выборка с атрибутом var1.
     get_var1 AS
     (
         SELECT var1
@@ -110,7 +114,7 @@ WITH
                 AND valid_dttm.valid_to_dttm <= Table1.valid_to_dttm
     ),
     
-    -- Выборка с атрибутом var2
+    -- Выборка с атрибутом var2.
     get_var2 AS
     (
         SELECT var2
@@ -121,7 +125,7 @@ WITH
     ),
     
     -- Создание линков для коннекта таблиц по атрибутам:
-    -- var1, var2
+    -- var1, var2.
     numbered_var1 AS
     (
         SELECT ROW_NUMBER() OVER() AS numb, *
@@ -133,7 +137,7 @@ WITH
         FROM get_var2
     )
  
--- Основной запрос
+-- Основной запрос.
 SELECT id, var1, var2, valid_from_dttm, valid_to_dttm
 FROM valid_dttm, numbered_var1, numbered_var2
 WHERE valid_dttm.numb = numbered_var1.numb 
