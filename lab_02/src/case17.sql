@@ -21,3 +21,4 @@ CREATE TEMP TABLE users_lvls
 INSERT INTO users_lvls (nickname, lvl)
 SELECT users.nickname, (SELECT MAX(lvl)
                           FROM users_statistics)
+FROM users;
