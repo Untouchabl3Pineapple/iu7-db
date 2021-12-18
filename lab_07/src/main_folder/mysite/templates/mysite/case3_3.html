@@ -1,0 +1,27 @@
+{% extends 'mysite/base.html' %}
+
+{% block title %}
+Case3_3
+{% endblock %}
+
+{% block body %}
+<h1>3. Три запроса на добавление, изменение и удаление данных в базе
+    данных.</h1>
+
+<h3>Insert cell: </h3>
+    ID: {{ insert_cell.id }} <br>
+    Nickname: {{ insert_cell.nickname }} <br>
+    Country: {{ insert_cell.country }} <br>
+    Guid: {{ insert_cell.guid }} <br>
+    Steam_id: {{ insert_cell.steam_id }} <br>
+
+<h3>Update cell: </h3>
+    ID: {{ update_cell.id }} <br>
+    Nickname: {{ update_cell.nickname }} <br>
+    Country: {{ update_cell.country }} <br>
+    Guid: {{ update_cell.guid }} <br>
+    Steam_id: {{ update_cell.steam_id }} <br>
+
+<h3>Delete cell: </h3>
+    {{ delete_info }}
+{% endblock %}

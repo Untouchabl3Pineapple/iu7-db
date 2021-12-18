@@ -1,0 +1,16 @@
+{% extends 'mysite/base.html' %}
+
+{% block title %}
+Case3_2
+{% endblock %}
+
+{% block body %}
+<h1>2. Многотабличный запрос на выборку.</h1>
+
+{% for userstat_obj in usersstats_obj_list %}
+    Nickname: {{ userstat_obj.users.nickname }} <br>
+    Lvl: {{ userstat_obj.lvl }} <br>
+    Elo: {{ userstat_obj.elo }} <br>
+    <br>
+{% endfor %}
+{% endblock %}

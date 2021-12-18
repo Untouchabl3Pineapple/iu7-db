@@ -1,0 +1,14 @@
+{% extends 'mysite/base.html' %}
+
+{% block title %}
+Case3_1
+{% endblock %}
+
+{% block body %}
+<h1>1. Однотабличный запрос на выборку.</h1>
+
+{% for user_obj in users_obj_list %}
+    Nickname: {{ user_obj.nickname }}
+    <br>
+{% endfor %}
+{% endblock %}

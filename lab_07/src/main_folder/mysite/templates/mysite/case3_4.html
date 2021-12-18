@@ -1,0 +1,16 @@
+{% extends 'mysite/base.html' %}
+
+{% block title %}
+Case3_4
+{% endblock %}
+
+{% block body %}
+<h1>4. Получение доступа к данным, выполняя только хранимую
+    процедуру.</h1>
+
+ID: {{ proc_result.id }} <br>
+Nickname: {{ proc_result.nickname }} <br>
+Country: {{ proc_result.country }} <br>
+Guid: {{ proc_result.guid }} <br>
+Steam_id: {{ proc_result.steam_id }} <br>
+{% endblock %}

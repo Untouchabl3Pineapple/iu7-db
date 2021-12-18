@@ -1,0 +1,14 @@
+{% extends 'mysite/base.html' %}
+
+{% block title %}
+Case2_3
+{% endblock %}
+
+{% block body %}
+<h1>3. Запись (Добавление) в XML/JSON документ.</h1>
+
+{% for user_data in json_users_data %}
+    {{ user_data }}
+    <br>
+{% endfor %}
+{% endblock %}
